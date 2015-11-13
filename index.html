@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-ng-app="courseDragger">
+<head>
+    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
+    <title>Course Dragger</title>
+    <link href="content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="content/css/site.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<body class="ng-cloak" ng-controller="indexController">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="btn btn-success navbar-toggle" ng-click="navbarcollapsed=!navbarcollapsed">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <a class="navbar-brand" href="#/" ng-click="navbarcollapsed=true">Home</a>
+            </div>
+            <div class="collapse navbar-collapse" uib-collapse="navbarcollapsed">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/demo" ng-click="navbarcollapsed=true">Demo</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container spacer-top">
+        <div data-ng-view=""></div>
+    </div>
+    <hr />
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-muted">Created by Jason Wong.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Core AngularJS libraries -->
+    <script src="https://code.angularjs.org/1.4.7/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.7/angular-route.min.js"></script>
+    <!-- UI Animation libraries -->
+    <script src="https://code.angularjs.org/1.4.7/angular-animate.min.js"></script>
+    <script src="scripts/libraries/angular-ui-bootstrap.js"></script>
+    <!-- Drag Drop Functionality -->
+    <script src="scripts/libraries/angular-drag-drop.min.js"></script>
+
+    <!-- Load app main script -->
+    <script src="app/app.js"></script>
+    <!-- Load services -->
+    <script src="app/services/utilityService.js"></script>
+    <script src="app/services/courseService.js"></script>
+    <script src="app/services/roomService.js"></script>
+    <!-- Load controllers -->
+    <script src="app/controllers/indexController.js"></script>
+    <script src="app/controllers/courseController.js"></script>
+    <!-- Load directives -->
+</body>
+</html>

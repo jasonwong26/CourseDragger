@@ -1,0 +1,110 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">Course Schedule: Mondays</div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="requestsets" class="table">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th ng-repeat="t in times">{{ t.text }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="vert-align-middle"
+                        ng-repeat="r in rooms">
+                        <td>{{ r.text }}</td>
+                        <td ng-repeat="t in r.courseTimes"
+                            class="course-time"
+                            course-id="{{ t.courseId }}"
+                            ng-class="{ 'course-time-valid': t.isValid(), 'course-time-invalid': t.isInvalid() }"
+                            drop-container accepts="['text/course']"
+                            on-drag-over="schedule.setCourseToValidate(data, $parent.$index, $index)"
+                            on-drag-leave="null"
+                            on-drop="schedule.saveCourse(data, $parent.$index, $index)">
+                            <div class="course-content"
+                                 ng-mouseover="hoverFocus.set(t.courseId)"
+                                 ng-mouseleave="hoverFocus.clear()"
+                                 ng-class="{ 'course-time-used': t.isUsed(), 'course-time-focus': hoverFocus.isFocused(t.courseId) }"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span>Courses</span>        
+        <span class="btn-group pull-right clear-fix">
+            <div class="dropdown" uib-dropdown>
+                <button class="btn btn-primary btn-xs dropdown-toggle" 
+                        type="button" uib-dropdown-toggle aria-haspopup="true" 
+                        aria-expanded="true">Show: {{ courseFilter.filter.text }} <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a ng-repeat="o in courseFilter.options" ng-click="courseFilter.set(o)">{{ o.text }}</a></li>
+                </ul>
+            </div>
+        </span>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="requestsets" class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Class #</th>
+                        <th>Class Title</th>
+                        <th>Instructor</th>
+                        <th>Units</th>
+                        <th>Days</th>
+                        <th>Length (Hours)</th>
+                        <th>Assigned</th>
+                        <th>Location</th>
+                        <th>Start</th>
+                        <th>End</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="vert-align-middle" 
+                        ng-repeat="c in courses" 
+                        ng-class="{ hidden: !courseFilter.displayCourse(c.schedule !== null) }"
+                        ng-mouseover="hoverFocus.set(c.id)" 
+                        ng-mouseleave="hoverFocus.clear()"
+                        >
+                        <td>
+                            <span type="button"
+                                  drag-container="c.toJson()"
+                                  on-drag-end="schedule.clearCourseToValidate()"
+                                  mime-type="text/course"
+                                  class="btn btn-primary btn-xs" ng-class="{hidden: c.assigned() }"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></span>
+                            <button type="button" 
+                                    class="btn btn-danger btn-xs" 
+                                    ng-class="{ hidden: !c.assigned() }"
+                                    ng-click="schedule.removeCourse(c.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        </td>
+                        <td>{{ c.id }}</td>
+                        <td ng-class="{ underline: hoverFocus.isFocused(c.id) && c.schedule !== null }">{{ c.title }}</td>
+                        <td>{{ c.instructor }}</td>
+                        <td>{{ c.units }}</td>
+                        <td>{{ c.days }}</td>
+                        <td>{{ c.length }}</td>
+                        <td>{{ c.assigned() ? 'Yes' : 'No' }}</td>
+                        <td>{{ textFunc.getRoom(c.schedule.roomId) }}</td>
+                        <td>{{ textFunc.getStartTime(c.schedule.startTime) }}</td>
+                        <td>{{ textFunc.getEndTime(c.schedule.startTime, c.length) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span>Api Data Package</span>         
+    </div>
+    <div class="panel-body">
+        {{ textFunc.getApiData() }}
+    </div>
+</div>
